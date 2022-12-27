@@ -223,4 +223,4 @@ const ticTacToe = (() => {
   return { game, gameBoard };
 })();
 
-ticTacToe.game();
+ticTacToe.game(); 
