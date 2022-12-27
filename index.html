@@ -1,14 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap"
+      rel="stylesheet"
+    />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Tic Tac Toe</h1>
+      </header>
+      <div class="container-play-field">
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+        <div class="play-field"></div>
+      </div>
+      <footer>
+        <p class="on-turn" id="on-turn"></p>
+      </footer>
+    </div>
+    <div id="modal-pregame" class="modal">
+      <div class="form-container">
+        <form id="form" class="form" action="">
+          <div>
+            <select name="player-or-cpu" id="player-or-cpu-1" required>
+              <option value="Player">Player</option>
+              <option value="CPU">CPU</option>
+            </select>
+            <label for="player-1">Name: </label>
+            <input type="text" id="player-1" name="player-1" required/>
+          </div>
+          <div>
+            <select name="player-or-cpu" id="player-or-cpu-2" required>
+              <option value="Player">Player</option>
+              <option value="CPU">CPU</option>
+            </select>
+            <label for="player-2">Name: </label>
+            <input type="text" id="player-2" name="player-2" required/>
+          </div>
+          <button id="modal-pregame-submit-btn" class="submit-button" type="submit">
+            Start
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="modal-win" class="modal">
+      <div class="form-container">
+        <form id="form" class="form" action="">
+          <p class="winning-message" id="winning-message"></p>
+          <button id="modal-submit-btn" class="submit-button" type="submit">
+            New game
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="overlay"></div>
+  </body>
 </html>

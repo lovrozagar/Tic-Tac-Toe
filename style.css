@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
+
+:root {
+  --border-radius: 15px;
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 30px;
+  --spacing-xxl: 40px;
+  --container-width: 800px;
+  --grey: #f5f5f5;
+  --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* CSS RESET */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+body {
+  font-size: 12px;
+  font-family: "Gloria Hallelujah", cursive;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-play-field {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 1.5rem;
+  gap: 1rem;
+}
+
+.play-field {
+  font-size: 100px;
+  height: 200px;
+  border-radius: var(--border-radius);
+  background-color: var(--grey);
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.x:hover::before{
+  content: 'X';
+  position: absolute;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.o:hover::before{
+  content: 'O';
+  position: absolute;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+footer p{
+  text-align: center;
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.modal {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  width: 350px;
+  height: 400px;
+  padding: 1rem;
+  border-radius: 10px;
+  z-index: 10;
+  background-color: rgba(128, 128, 128, 0.51);
+}
+
+.modal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  transition: 200ms ease-in-out;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem 0;
+}
+
+.form div{
+  border: 3px solid;
+  display: flex;
+  flex-direction: column;
+}
