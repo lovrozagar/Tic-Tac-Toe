@@ -17,6 +17,84 @@
     <script src="main.js" defer></script>
   </head>
   <body>
+    <div id="modal-pregame" class="modal">
+      <div class="form-container">
+        <h1>Tic Tac Toe</h1>
+        <form id="form" class="form" action="">
+          <div class="form-section">
+            <iframe
+              class="gif-player1"
+              id="gif-player-1"
+              src="https://giphy.com/embed/l41lGnxllmN3YqOyI"
+            ></iframe>
+            <iframe
+              class="gif-bot-1 hidden"
+              id="gif-bot-1"
+              src="https://giphy.com/embed/AH64YYDr4EF44"
+            ></iframe>
+            <button
+              type="button"
+              class="btn-player-1 selected"
+              id="btn-player-1"
+            >
+              Player
+            </button>
+            <button type="button" class="btn-bot-1" id="btn-bot-1">Bot</button>
+            <input
+              type="text"
+              id="name-player-1"
+              name="player-1"
+              value=""
+              placeholder="player name"
+            />
+          </div>
+          <div class="form-section">
+            <iframe
+              class="gif-player-2 hidden"
+              id="gif-player-2"
+              src="https://giphy.com/embed/l41lGnxllmN3YqOyI"
+            ></iframe>
+            <iframe
+              class="gif-bot-2"
+              id="gif-bot-2"
+              src="https://giphy.com/embed/AH64YYDr4EF44"
+            ></iframe>
+            <button type="button" class="btn-player-2" id="btn-player-2">
+              Player
+            </button>
+            <button type="button" class="btn-bot-2 selected" id="btn-bot-2">
+              Bot
+            </button>
+            <input
+              type="text"
+              id="name-player-2"
+              name="player-2"
+              value=""
+              placeholder="player name"
+            />
+          </div>
+        </form>
+        <button
+          id="btn-start-game"
+          type="submit"
+          form="form"
+          class="btn-start-game"
+        >
+          Battle
+        </button>
+      </div>
+    </div>
+    <div id="modal-win" class="modal">
+      <div class="form-container">
+        <form id="form" class="form" action="">
+          <p class="winning-message" id="winning-message"></p>
+          <button id="modal-submit-btn" class="submit-button" type="submit">
+            New game
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="overlay"></div>
     <div class="container">
       <header>
         <h1>Tic Tac Toe</h1>
@@ -37,50 +115,5 @@
         <button>New game</button>
       </footer>
     </div>
-    <div id="modal-pregame" class="modal">
-      <div class="form-container">
-        <form id="form" class="form" action="">
-          <div>
-            <select name="player-or-cpu" id="player-or-cpu-1" required>
-              <option value="Player">Player</option>
-              <option value="CPU">CPU</option>
-            </select>
-            <label for="player-1">Name: </label>
-            <input
-              type="text"
-              id="player-1"
-              name="player-1"
-              value="human"
-              required
-            />
-          </div>
-          <div>
-            <select name="player-or-cpu" id="player-or-cpu-2" required>
-              <option value="CPU">CPU</option>
-            </select>
-            <label for="player-2">Name: </label>
-            <input
-              type="text"
-              id="player-2"
-              name="player-2"
-              value="bot"
-              required
-            />
-          </div>
-        </form>
-        <button id="modal-pregame-submit-btn" type="submit" form="form" class="btn-start-game">Start game</button>
-      </div>
-    </div>
-    <div id="modal-win" class="modal">
-      <div class="form-container">
-        <form id="form" class="form" action="">
-          <p class="winning-message" id="winning-message"></p>
-          <button id="modal-submit-btn" class="submit-button" type="submit">
-            New game
-          </button>
-        </form>
-      </div>
-    </div>
-    <div id="overlay"></div>
   </body>
 </html>

@@ -11,7 +11,7 @@
   --spacing-xxl: 40px;
   --container-width: 700px;
   --grey: #f5f5f5;
-  --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  --shadow: rgba(0, 0, 0, 0.16) 3px 3px 3px;
 }
 
 /* CSS RESET */
@@ -96,12 +96,11 @@ footer p {
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
-  width: 50rem;
-  height: 50rem;
+
   padding: 1rem;
   border-radius: 10px;
   z-index: 10;
-  background-color: rgba(128, 128, 128, 0.51);
+  background-color: rgb(255, 255, 255);
 }
 
 .modal.active {
@@ -125,16 +124,16 @@ footer p {
   pointer-events: all;
 }
 
-.form-container form{
+.form-container form {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
 }
 
-.form div {
-  border: 3px solid;
+.form .form-section {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 footer {
@@ -146,10 +145,16 @@ footer {
   padding: 0 1.5rem;
 }
 
+h1 {
+  margin-bottom: 3rem;
+  font-size: 3rem;
+  word-spacing: 3rem;
+}
+
 footer form {
   display: flex;
   justify-content: space-evenly;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .player-one,
@@ -178,6 +183,41 @@ button {
   border: none;
   border-radius: var(--border-radius-btn);
   font-size: 1rem;
-  height: 2rem;
-  margin-top: 0.5rem;
+  height: 3rem;
+}
+
+.btn-start-game {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.btn-player-1:hover,
+.btn-player-2:hover,
+.btn-bot-1:hover,
+.btn-bot-2:hover,
+.btn-start-game:hover {
+  background-color: rgb(201, 201, 201);
+  color: black;
+  transition: 200ms;
+}
+
+iframe {
+  height: 300px;
+  border-radius: var(--border-radius);
+  pointer-events: none;
+}
+
+iframe,
+button,
+input {
+  box-shadow: var(--shadow);
+}
+
+.hidden{
+  display: none;
+}
+
+.selected{
+  background-color: black;
+  color: white;
 }
