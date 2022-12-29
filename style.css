@@ -1,14 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 
 :root {
   --border-radius: 15px;
+  --border-radius-btn: 8px;
   --spacing-xs: 5px;
   --spacing-sm: 10px;
   --spacing-md: 15px;
   --spacing-lg: 20px;
   --spacing-xl: 30px;
   --spacing-xxl: 40px;
-  --container-width: 800px;
+  --container-width: 700px;
   --grey: #f5f5f5;
   --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
@@ -33,7 +34,7 @@ h1 {
 
 body {
   font-size: 12px;
-  font-family: "Gloria Hallelujah", cursive;
+  font-family: 'Gloria Hallelujah', cursive;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -51,29 +52,34 @@ body {
 
 .play-field {
   font-size: 100px;
-  height: 200px;
+  height: 175px;
   border-radius: var(--border-radius);
   background-color: var(--grey);
-  box-shadow: var(--shadow);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
 
-.x:hover::before{
+.play-field,
+input[type='text'],
+button {
+  box-shadow: var(--shadow);
+}
+
+.x:hover::before {
   content: 'X';
   position: absolute;
   color: rgba(0, 0, 0, 0.2);
 }
 
-.o:hover::before{
+.o:hover::before {
   content: 'O';
   position: absolute;
   color: rgba(0, 0, 0, 0.2);
 }
 
-footer p{
+footer p {
   text-align: center;
   font-size: 2rem;
   line-height: 2rem;
@@ -90,8 +96,8 @@ footer p{
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
-  width: 350px;
-  height: 400px;
+  width: 50rem;
+  height: 50rem;
   padding: 1rem;
   border-radius: 10px;
   z-index: 10;
@@ -110,7 +116,7 @@ footer p{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgb(255, 255, 255);
   pointer-events: none;
 }
 
@@ -119,14 +125,59 @@ footer p{
   pointer-events: all;
 }
 
-.form{
+.form-container form{
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 1rem 0;
+  justify-content: space-between;
 }
 
-.form div{
+.form div {
   border: 3px solid;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
+}
+
+footer {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.5rem;
+}
+
+footer form {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.player-one,
+.player-two {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type='text'],
+button {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 1rem;
+}
+
+input[type='text'] {
+  appearance: none;
+  outline: none;
+  border: 2px solid var(--grey);
+  border-radius: 5px;
+  text-align: center;
+  height: 2rem;
+}
+
+button {
+  border: none;
+  border-radius: var(--border-radius-btn);
+  font-size: 1rem;
+  height: 2rem;
+  margin-top: 0.5rem;
 }
