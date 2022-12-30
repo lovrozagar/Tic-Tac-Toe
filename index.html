@@ -22,16 +22,8 @@
         <h1>Tic Tac Toe</h1>
         <form id="form" class="form" action="">
           <div class="form-section">
-            <iframe
-              class="gif-player1"
-              id="gif-player-1"
-              src="https://giphy.com/embed/l41lGnxllmN3YqOyI"
-            ></iframe>
-            <iframe
-              class="gif-bot-1 hidden"
-              id="gif-bot-1"
-              src="https://giphy.com/embed/AH64YYDr4EF44"
-            ></iframe>
+            <img class="gif-player1" id="gif-player-1" src="images/human.gif" />
+            <img class="gif-bot-1 hidden" id="gif-bot-1" src="images/bot.gif" />
             <button
               type="button"
               class="btn-player-1 selected"
@@ -49,16 +41,12 @@
             />
           </div>
           <div class="form-section">
-            <iframe
+            <img
               class="gif-player-2 hidden"
               id="gif-player-2"
-              src="https://giphy.com/embed/l41lGnxllmN3YqOyI"
-            ></iframe>
-            <iframe
-              class="gif-bot-2"
-              id="gif-bot-2"
-              src="https://giphy.com/embed/AH64YYDr4EF44"
-            ></iframe>
+              src="images/human.gif"
+            />
+            <img class="gif-bot-2" id="gif-bot-2" src="images/bot.gif" />
             <button type="button" class="btn-player-2" id="btn-player-2">
               Player
             </button>
@@ -99,7 +87,7 @@
       <header>
         <h1>Tic Tac Toe</h1>
       </header>
-      <div class="container-play-field">
+      <div class="container-play-field" id="container-play-field">
         <div class="play-field"></div>
         <div class="play-field"></div>
         <div class="play-field"></div>

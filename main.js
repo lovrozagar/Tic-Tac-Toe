@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 /* eslint-disable arrow-body-style */
+
 const ticTacToe = (() => {
   // MODAL
   const pregameModal = document.querySelector('#modal-pregame');
@@ -19,9 +20,6 @@ const ticTacToe = (() => {
     overlay.classList.remove('active');
   }
 
-  let player1;
-  let player2;
-
   const board = ['', '', '', '', '', '', '', '', ''];
   const wins = [
     [0, 3, 6],
@@ -34,10 +32,13 @@ const ticTacToe = (() => {
     [2, 4, 6],
   ];
 
-  const personFactory = (player, name) => {
-    const sayHello = () => console.log('hello!');
-    return { player, name, sayHello };
+  const personFactory = (player, name, sign) => {
+    return { player, name, sign };
   };
+
+  let player1 = {};
+  let player2 = {};
+  const playerArray = [];
 
   let whoIsOnTurn = 'player1';
 
@@ -83,6 +84,11 @@ const ticTacToe = (() => {
     for (let i = 0; i < board.length; i += 1) {
       gameFields[i].textContent = board[i];
     }
+  }
+
+  function removeBoardListeners() {
+    const gameBoard = document.querySelectorAll('.container-play-field');
+    gameBoard.replaceWith(gameBoard.cloneNode(true));
   }
 
   function printTieMessage() {
@@ -135,6 +141,7 @@ const ticTacToe = (() => {
     if (field.textContent) {
       return false;
     }
+    field.textContent = playPlayersTurn();
     return true;
   }
 
@@ -190,19 +197,18 @@ const ticTacToe = (() => {
 
     const buttonStartGame = document.querySelector('#btn-start-game');
     buttonStartGame.addEventListener('click', (event) => {
-      event.preventDefault();
       // Player1 object creation
-      let p1;
+      let p1 = namePlayer1.value;
       if (namePlayer1.value === '') {
         p1 = 'P1';
       }
       if (buttonPlayer1.classList.contains('selected')) {
-        player1 = personFactory('Player', p1);
+        player1 = personFactory('Player', p1, 'X');
       } else {
-        player1 = personFactory('CPU', p1);
+        player1 = personFactory('CPU', p1, 'O');
       }
       // Player2 object creation
-      let p2;
+      let p2 = namePlayer2.value;
       if (namePlayer2.value === '') {
         p2 = 'P2';
       }
@@ -211,8 +217,11 @@ const ticTacToe = (() => {
       } else {
         player2 = personFactory('CPU', p2);
       }
-
+      playerArray.push(player1);
+      playerArray.push(player2);
       closeModal(pregameModal);
+      event.preventDefault();
+      turn();
     });
     // const submitButton = document.querySelector('#modal-pregame-submit-btn');
     // const playerOneOption = document.querySelector('#player-or-cpu-1');
@@ -258,6 +267,85 @@ const ticTacToe = (() => {
   };
 
   function minimax(depth, isMaximizing) {
+    let thisBot = '';
+    let opponent = '';
+    if (whoIsOnTurn === 'player1') {
+      thisBot = 'X';
+      opponent = 'O';
+    } else {
+      thisBot = 'O';
+      opponent = 'X';
+    }
+
+    const win = checkForWin();
+    const tie = checkForTie();
+    if (win === 'X' || win === 'O') {
+      return scores[win];
+    }
+    if (tie === 'tie') {
+      return scores[tie];
+    }
+    console.log('a');
+
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (let i = 0; i < board.length; i += 1) {
+        // Is the spot available?
+        if (board[i] === '') {
+          board[i] = thisBot;
+          const score = minimax(depth + 1, false);
+          board[i] = '';
+          bestScore = max(score, bestScore);
+        }
+      }
+      return bestScore;
+    }
+    let bestScore = Infinity;
+    for (let i = 0; i < board.length; i += 1) {
+      // Is the spot available?
+      if (board[i] === '') {
+        board[i] = opponent;
+        const score = minimax(depth + 1, true);
+        board[i] = '';
+        bestScore = min(score, bestScore);
+      }
+    }
+    return bestScore;
+  }
+
+  function bestMove() {
+    let thisBot = '';
+    if (whoIsOnTurn === 'player1') {
+      thisBot = 'X';
+    } else {
+      thisBot = 'O';
+    }
+    // AI to make its turn
+    let bestScore = -Infinity;
+    let move;
+    for (let i = 0; i < board.length; i += 1) {
+      if (board[i] === '') {
+        board[i] = thisBot;
+        const score = minimax(0, false);
+        board[i] = '';
+        if (score > bestScore) {
+          bestScore = score;
+          move = { i };
+        }
+      }
+    }
+
+    board[move.i] = thisBot;
+    if (whoIsOnTurn === 'player1') {
+      whoIsOnTurn = 'player2';
+    } else {
+      whoIsOnTurn = 'player1';
+    }
+  }
+
+  // ------------------------------------
+
+  function minimaxi(depth, isMaximizing) {
     const win = checkForWin();
     const tie = checkForTie();
     if (win === 'X' || win === 'O') {
@@ -294,14 +382,14 @@ const ticTacToe = (() => {
     return bestScore;
   }
 
-  function bestMove() {
+  function bestMoves() {
     // AI to make its turn
     let bestScore = -Infinity;
     let move;
     for (let i = 0; i < board.length; i += 1) {
       if (board[i] === '') {
         board[i] = 'O';
-        const score = minimax(0, false);
+        const score = minimaxi(0, false);
         board[i] = '';
         if (score > bestScore) {
           bestScore = score;
@@ -309,48 +397,123 @@ const ticTacToe = (() => {
         }
       }
     }
-    console.log(move.i);
-    board[move.i] = 'O';
-    whoIsOnTurn = 'player1';
+    board[move.i] = 'X';
+    if (whoIsOnTurn === 'player1') {
+      whoIsOnTurn = 'player2';
+    } else {
+      whoIsOnTurn = 'player1';
+    }
   }
+
+  // ------------------------------------
 
   function continueGame() {
     const gameFields = document.querySelectorAll('.play-field');
     updateBoardArray(gameFields);
     if (checkForWin()) {
       printWinMessage();
-    } else if (checkForTie()) {
+      return true;
+    }
+    if (checkForTie()) {
       printTieMessage();
-    } else {
-      printPlayerOnTurnInFooter();
-      setHoverOfCurrentPlayerOnBoard(gameFields);
+      return true;
+    }
+    printPlayerOnTurnInFooter();
+    setHoverOfCurrentPlayerOnBoard(gameFields);
+    return false;
+  }
+
+  function removeListenersIfEnd(gameFields) {
+    if (continueGame()) {
+      gameFields.forEach((n) => {
+        n.classList.remove('o');
+        n.classList.remove('x');
+        n.replaceWith(n.cloneNode(true));
+      });
     }
   }
 
-  function playerTurn() {
+  function cpuPlaysOinMiddleIfEmpty() {
+    if (board[4] === '') {
+      board[4] = 'O';
+      whoIsOnTurn = 'player1';
+      return;
+    }
+    bestMove();
+  }
+
+  function cpuPlaysXinMiddleIfEmpty() {
+    if (board[4] === '') {
+      board[4] = 'X';
+      whoIsOnTurn = 'player2';
+      return;
+    }
+    bestMoves();
+  }
+
+  function turn() {
+    const x = 0;
+    const o = 1;
     const gameFields = document.querySelectorAll('.play-field');
     setHoverOfCurrentPlayerOnBoard(gameFields);
-    gameFields.forEach((field) => {
-      field.addEventListener('click', () => {
-        if (checkIfEmptyField(field)) {
-          field.textContent = playPlayersTurn();
-          updateBoardArray(gameFields);
-          continueGame();
-        }
-        if (player2.player === 'CPU') {
-          bestMove();
-          updateBoardFields(gameFields);
-          continueGame();
-        }
+    // If P1 is player and P2 is player &&
+    // If P1 is player and P2 is CPu
+    if (
+      playerArray[x].player === 'Player' &&
+      (playerArray[o].player === 'Player' || playerArray[o].player === 'CPU')
+    ) {
+      gameFields.forEach((field) => {
+        field.addEventListener('click', () => {
+          if (checkIfEmptyField(field)) {
+            updateBoardArray(gameFields);
+            removeListenersIfEnd(gameFields);
+            if (playerArray[o].player === 'CPU') {
+              cpuPlaysOinMiddleIfEmpty();
+              updateBoardFields(gameFields);
+              removeListenersIfEnd(gameFields);
+            }
+          }
+        });
       });
-    });
+    }
+    // If P1 is CPU and P2 is player
+    if (playerArray[x].player === 'CPU' || playerArray[o].player === 'Player') {
+      cpuPlaysXinMiddleIfEmpty();
+      updateBoardFields(gameFields);
+      removeListenersIfEnd(gameFields);
+      gameFields.forEach((field) => {
+        field.addEventListener('click', () => {
+          if (checkIfEmptyField(field)) {
+            updateBoardArray(gameFields);
+            removeListenersIfEnd(gameFields);
+            if (playerArray[x].player === 'CPU') {
+              cpuPlaysXinMiddleIfEmpty();
+              updateBoardFields(gameFields);
+              removeListenersIfEnd(gameFields);
+            }
+          }
+        });
+      });
+    }
+
+    if (playerArray[x].player === 'CPU' && playerArray[o].player === 'CPU') {
+      while (!(checkForWin() || checkForTie())) {
+        if (whoIsOnTurn === 'player2') {
+          bestMove();
+        } else {
+          bestMoves();
+        }
+        updateBoardFields(gameFields);
+        removeListenersIfEnd(gameFields);
+      }
+    }
   }
 
   function game() {
     pregame();
-    playerTurn();
   }
-  return { game, board };
+
+  return { game, board, playerArray };
 })();
 
 ticTacToe.game();
