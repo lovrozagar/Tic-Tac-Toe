@@ -13,10 +13,10 @@
       href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap"
       rel="stylesheet"
     />
-    <script src="minimax.js" defer></script>
     <script src="main.js" defer></script>
   </head>
   <body>
+    <button type="submit" class="refresh" id="refresh">Return</button>
     <div id="modal-pregame" class="modal">
       <div class="form-container">
         <h1>Tic Tac Toe</h1>
@@ -84,9 +84,10 @@
     </div>
     <div id="overlay"></div>
     <div class="container">
-      <header>
-        <h1>Tic Tac Toe</h1>
-      </header>
+      <div class="score" id="score">
+        <p class="score-x" id="score-x">P1 (X): 0</p>
+        <p class="score-o" id="score-o">P2 (O): 0</p>
+      </div>
       <div class="container-play-field" id="container-play-field">
         <div class="play-field"></div>
         <div class="play-field"></div>
@@ -100,7 +101,7 @@
       </div>
       <footer>
         <p class="on-turn" id="on-turn"></p>
-        <button>New game</button>
+        <button class="btn-reset" id="btn-reset">Battle again!</button>
       </footer>
     </div>
   </body>

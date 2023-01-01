@@ -20,7 +20,7 @@ const ticTacToe = (() => {
     overlay.classList.remove('active');
   }
 
-  const board = ['', '', '', '', '', '', '', '', ''];
+  let board = ['', '', '', '', '', '', '', '', ''];
   const wins = [
     [0, 3, 6],
     [1, 4, 7],
@@ -32,8 +32,8 @@ const ticTacToe = (() => {
     [2, 4, 6],
   ];
 
-  const personFactory = (player, name, sign) => {
-    return { player, name, sign };
+  const personFactory = (player, name, sign, score) => {
+    return { player, name, sign, score };
   };
 
   let player1 = {};
@@ -42,69 +42,18 @@ const ticTacToe = (() => {
 
   let whoIsOnTurn = 'player1';
 
-  function addXorOClass(field) {
-    if (whoIsOnTurn === 'player1') {
-      field.classList.remove('o');
-      field.classList.add('x');
-      return;
+  function max(a, b) {
+    if (a > b) {
+      return a;
     }
-    field.classList.remove('x');
-    field.classList.add('o');
+    return b;
   }
 
-  function setHoverOfCurrentPlayerOnBoard(gameFields) {
-    gameFields.forEach((field) => {
-      if (field.textContent) {
-        return;
-      }
-      addXorOClass(field);
-    });
-  }
-
-  function playPlayersTurn() {
-    if (whoIsOnTurn === 'player1') {
-      whoIsOnTurn = 'player2';
-      return 'X';
+  function min(a, b) {
+    if (a < b) {
+      return a;
     }
-    whoIsOnTurn = 'player1';
-    return 'O';
-  }
-
-  function updateBoardArray(gameFields) {
-    let i = 0;
-    gameFields.forEach((field) => {
-      if (field.textContent !== null || field.textContent !== '') {
-        board[i] = field.textContent;
-        i += 1;
-      }
-    });
-  }
-
-  function updateBoardFields(gameFields) {
-    for (let i = 0; i < board.length; i += 1) {
-      gameFields[i].textContent = board[i];
-    }
-  }
-
-  function removeBoardListeners() {
-    const gameBoard = document.querySelectorAll('.container-play-field');
-    gameBoard.replaceWith(gameBoard.cloneNode(true));
-  }
-
-  function printTieMessage() {
-    openModal(winModal);
-    const winMessage = document.querySelector('#winning-message');
-    winMessage.textContent = `It's a Tie! XOXO`;
-  }
-
-  function printWinMessage() {
-    openModal(winModal);
-    const winMessage = document.querySelector('#winning-message');
-    if (whoIsOnTurn === 'player2') {
-      winMessage.textContent = `${player1.name} wins! XOXO`;
-    } else {
-      winMessage.textContent = `${player2.name} wins! XOXO`;
-    }
+    return b;
   }
 
   function checkForTie() {
@@ -137,129 +86,6 @@ const ticTacToe = (() => {
     return false;
   }
 
-  function checkIfEmptyField(field) {
-    if (field.textContent) {
-      return false;
-    }
-    field.textContent = playPlayersTurn();
-    return true;
-  }
-
-  function printPlayerOnTurnInFooter() {
-    const footer = document.querySelector('#on-turn');
-    if (whoIsOnTurn === 'player1') {
-      footer.textContent = `${player1.name}'s turn`;
-      return;
-    }
-    footer.textContent = `${player2.name}'s turn`;
-  }
-
-  function pregame() {
-    openModal(pregameModal);
-
-    // Pregame button event listeners
-    const gifPlayer1 = document.querySelector('#gif-player-1');
-    const gifBot1 = document.querySelector('#gif-bot-1');
-    const buttonPlayer1 = document.querySelector('#btn-player-1');
-    const buttonBot1 = document.querySelector('#btn-bot-1');
-    const namePlayer1 = document.querySelector('#name-player-1');
-
-    buttonBot1.addEventListener('click', () => {
-      gifPlayer1.classList.add('hidden');
-      gifBot1.classList.remove('hidden');
-      buttonPlayer1.classList.remove('selected');
-      buttonBot1.classList.add('selected');
-    });
-    buttonPlayer1.addEventListener('click', () => {
-      gifBot1.classList.add('hidden');
-      gifPlayer1.classList.remove('hidden');
-      buttonBot1.classList.remove('selected');
-      buttonPlayer1.classList.add('selected');
-    });
-
-    const gifPlayer2 = document.querySelector('#gif-player-2');
-    const gifBot2 = document.querySelector('#gif-bot-2');
-    const buttonPlayer2 = document.querySelector('#btn-player-2');
-    const buttonBot2 = document.querySelector('#btn-bot-2');
-    const namePlayer2 = document.querySelector('#name-player-2');
-    buttonBot2.addEventListener('click', () => {
-      gifPlayer2.classList.add('hidden');
-      gifBot2.classList.remove('hidden');
-      buttonPlayer2.classList.remove('selected');
-      buttonBot2.classList.add('selected');
-    });
-    buttonPlayer2.addEventListener('click', () => {
-      gifBot2.classList.add('hidden');
-      gifPlayer2.classList.remove('hidden');
-      buttonBot2.classList.remove('selected');
-      buttonPlayer2.classList.add('selected');
-    });
-
-    const buttonStartGame = document.querySelector('#btn-start-game');
-    buttonStartGame.addEventListener('click', (event) => {
-      // Player1 object creation
-      let p1 = namePlayer1.value;
-      if (namePlayer1.value === '') {
-        p1 = 'P1';
-      }
-      if (buttonPlayer1.classList.contains('selected')) {
-        player1 = personFactory('Player', p1, 'X');
-      } else {
-        player1 = personFactory('CPU', p1, 'O');
-      }
-      // Player2 object creation
-      let p2 = namePlayer2.value;
-      if (namePlayer2.value === '') {
-        p2 = 'P2';
-      }
-      if (buttonPlayer2.classList.contains('selected')) {
-        player2 = personFactory('Player', p2);
-      } else {
-        player2 = personFactory('CPU', p2);
-      }
-      playerArray.push(player1);
-      playerArray.push(player2);
-      closeModal(pregameModal);
-      event.preventDefault();
-      turn();
-    });
-    // const submitButton = document.querySelector('#modal-pregame-submit-btn');
-    // const playerOneOption = document.querySelector('#player-or-cpu-1');
-    // const playerOneName = document.querySelector('#player-1');
-    // const playerTwoOption = document.querySelector('#player-or-cpu-2');
-    // const playerTwoName = document.querySelector('#player-2');
-    // submitButton.addEventListener('click', (event) => {
-    //   if (
-    //     playerOneOption.value !== null &&
-    //     playerOneName.value !== '' &&
-    //     playerTwoOption.value !== null &&
-    //     playerTwoName.value !== '' &&
-    //     playerOneName.value !== playerTwoName.value
-    //   ) {
-    //     event.preventDefault();
-    //     player1 = personFactory(playerOneOption.value, playerOneName.value);
-    //     player2 = personFactory(playerTwoOption.value, playerTwoName.value);
-    //     console.log(player1, player2);
-    //     closeModal(pregameModal);
-    //     printPlayerOnTurnInFooter();
-    //   }
-    // });
-  }
-
-  function max(a, b) {
-    if (a > b) {
-      return a;
-    }
-    return b;
-  }
-
-  function min(a, b) {
-    if (a < b) {
-      return a;
-    }
-    return b;
-  }
-
   const scores = {
     X: -10,
     O: 10,
@@ -285,7 +111,6 @@ const ticTacToe = (() => {
     if (tie === 'tie') {
       return scores[tie];
     }
-    console.log('a');
 
     if (isMaximizing) {
       let bestScore = -Infinity;
@@ -354,7 +179,6 @@ const ticTacToe = (() => {
     if (tie === 'tie') {
       return scores[tie];
     }
-    console.log('a');
 
     if (isMaximizing) {
       let bestScore = -Infinity;
@@ -405,20 +229,115 @@ const ticTacToe = (() => {
     }
   }
 
-  // ------------------------------------
+  function addXorOClass(field) {
+    if (whoIsOnTurn === 'player1') {
+      field.classList.remove('o');
+      field.classList.add('x');
+      return;
+    }
+    field.classList.remove('x');
+    field.classList.add('o');
+  }
+
+  function setHoverOfCurrentPlayerOnBoard(gameFields) {
+    gameFields.forEach((field) => {
+      if (field.textContent === '') {
+        addXorOClass(field);
+        field.style.pointerEvents = 'auto';
+      }
+    });
+  }
+
+  function playPlayersTurn() {
+    if (whoIsOnTurn === 'player1') {
+      whoIsOnTurn = 'player2';
+      return 'X';
+    }
+    whoIsOnTurn = 'player1';
+    return 'O';
+  }
+
+  function updateBoardArray(gameFields) {
+    let i = 0;
+    gameFields.forEach((field) => {
+      if (field.textContent !== null || field.textContent !== '') {
+        board[i] = field.textContent;
+        i += 1;
+      }
+    });
+  }
+
+  function setSignColor(sign, field) {
+    if (sign === 'X') {
+      field.style.color = '#1F51FF';
+    } else {
+      field.style.color = '#D22B2B';
+    }
+  }
+
+  function updateBoardFields(gameFields) {
+    for (let i = 0; i < board.length; i += 1) {
+      gameFields[i].textContent = board[i];
+      setSignColor(gameFields[i].textContent, gameFields[i]);
+    }
+  }
+
+  function printTieMessage() {
+    openModal(winModal);
+    const winMessage = document.querySelector('#winning-message');
+    winMessage.textContent = `It's a Tie! XOXO`;
+  }
+
+  function printWinMessage() {
+    openModal(winModal);
+    const winMessage = document.querySelector('#winning-message');
+    if (whoIsOnTurn === 'player2') {
+      winMessage.textContent = `${player1.name} wins! XOXO`;
+    } else {
+      winMessage.textContent = `${player2.name} wins! XOXO`;
+    }
+  }
+
+  function checkIfEmptyField(field) {
+    if (field.textContent) {
+      return false;
+    }
+    field.textContent = playPlayersTurn();
+    setSignColor(field.textContent, field);
+    return true;
+  }
+
+  function setPlayerNames() {
+    const x = document.querySelector('#score-x');
+    const o = document.querySelector('#score-o');
+    x.textContent = `${playerArray[0].name} (X): ${playerArray[0].score}`;
+    o.textContent = `${playerArray[1].name} (O): ${playerArray[1].score}`;
+  }
+
+  function incrementWinner(winner) {
+    if (winner === 'X') {
+      playerArray[0].score += 1;
+    }
+    if (winner === 'O') {
+      playerArray[1].score += 1;
+    }
+  }
 
   function continueGame() {
     const gameFields = document.querySelectorAll('.play-field');
     updateBoardArray(gameFields);
-    if (checkForWin()) {
-      printWinMessage();
+    const winner = checkForWin();
+    if (winner) {
+      incrementWinner(winner);
+      setPlayerNames();
+      if (playerArray[0].score === 5 || playerArray[1].score === 5) {
+        printWinMessage();
+      }
       return true;
     }
     if (checkForTie()) {
-      printTieMessage();
       return true;
     }
-    printPlayerOnTurnInFooter();
     setHoverOfCurrentPlayerOnBoard(gameFields);
     return false;
   }
@@ -428,7 +347,7 @@ const ticTacToe = (() => {
       gameFields.forEach((n) => {
         n.classList.remove('o');
         n.classList.remove('x');
-        n.replaceWith(n.cloneNode(true));
+        n.style.pointerEvents = 'none';
       });
     }
   }
@@ -451,10 +370,33 @@ const ticTacToe = (() => {
     bestMoves();
   }
 
+  function resetGame() {
+    const resetButton = document.querySelector('#btn-reset');
+    resetButton.addEventListener('click', () => {
+      for (let i = 0; i < board.length; i += 1) {
+        board[i] = '';
+      }
+      const gameFields = document.querySelectorAll('.play-field');
+      updateBoardFields(gameFields);
+      turn();
+    });
+  }
+
+  function returnToMainMenu() {
+    const returnButton = document.querySelector('#refresh');
+    returnButton.addEventListener('click', () => {
+      location.reload();
+      return false;
+    });
+  }
+
   function turn() {
+    returnToMainMenu();
+
     const x = 0;
     const o = 1;
     const gameFields = document.querySelectorAll('.play-field');
+
     setHoverOfCurrentPlayerOnBoard(gameFields);
     // If P1 is player and P2 is player &&
     // If P1 is player and P2 is CPu
@@ -477,7 +419,7 @@ const ticTacToe = (() => {
       });
     }
     // If P1 is CPU and P2 is player
-    if (playerArray[x].player === 'CPU' || playerArray[o].player === 'Player') {
+    if (playerArray[x].player === 'CPU' && playerArray[o].player === 'Player') {
       cpuPlaysXinMiddleIfEmpty();
       updateBoardFields(gameFields);
       removeListenersIfEnd(gameFields);
@@ -507,7 +449,82 @@ const ticTacToe = (() => {
         removeListenersIfEnd(gameFields);
       }
     }
+    resetGame();
   }
+
+  function pregame() {
+    openModal(pregameModal);
+
+    // Pregame button event listeners
+    const gifPlayer1 = document.querySelector('#gif-player-1');
+    const gifBot1 = document.querySelector('#gif-bot-1');
+    const buttonPlayer1 = document.querySelector('#btn-player-1');
+    const buttonBot1 = document.querySelector('#btn-bot-1');
+    const namePlayer1 = document.querySelector('#name-player-1');
+
+    buttonBot1.addEventListener('click', () => {
+      gifPlayer1.classList.add('hidden');
+      gifBot1.classList.remove('hidden');
+      buttonPlayer1.classList.remove('selected');
+      buttonBot1.classList.add('selected');
+    });
+    buttonPlayer1.addEventListener('click', () => {
+      gifBot1.classList.add('hidden');
+      gifPlayer1.classList.remove('hidden');
+      buttonBot1.classList.remove('selected');
+      buttonPlayer1.classList.add('selected');
+    });
+
+    const gifPlayer2 = document.querySelector('#gif-player-2');
+    const gifBot2 = document.querySelector('#gif-bot-2');
+    const buttonPlayer2 = document.querySelector('#btn-player-2');
+    const buttonBot2 = document.querySelector('#btn-bot-2');
+    const namePlayer2 = document.querySelector('#name-player-2');
+    buttonBot2.addEventListener('click', () => {
+      gifPlayer2.classList.add('hidden');
+      gifBot2.classList.remove('hidden');
+      buttonPlayer2.classList.remove('selected');
+      buttonBot2.classList.add('selected');
+    });
+    buttonPlayer2.addEventListener('click', () => {
+      gifBot2.classList.add('hidden');
+      gifPlayer2.classList.remove('hidden');
+      buttonBot2.classList.remove('selected');
+      buttonPlayer2.classList.add('selected');
+    });
+
+    const buttonStartGame = document.querySelector('#btn-start-game');
+    buttonStartGame.addEventListener('click', (event) => {
+      // Player1 object creation
+      let p1 = namePlayer1.value;
+      if (namePlayer1.value === '') {
+        p1 = 'P1';
+      }
+      if (buttonPlayer1.classList.contains('selected')) {
+        player1 = personFactory('Player', p1, 'X', 0);
+      } else {
+        player1 = personFactory('CPU', p1, 'O', 0);
+      }
+      // Player2 object creation
+      let p2 = namePlayer2.value;
+      if (namePlayer2.value === '') {
+        p2 = 'P2';
+      }
+      if (buttonPlayer2.classList.contains('selected')) {
+        player2 = personFactory('Player', p2, 'X', 0);
+      } else {
+        player2 = personFactory('CPU', p2, 'O', 0);
+      }
+      playerArray.push(player1);
+      playerArray.push(player2);
+      closeModal(pregameModal);
+      event.preventDefault();
+      setPlayerNames();
+      turn();
+    });
+  }
+
+  // ------------------------------------
 
   function game() {
     pregame();
