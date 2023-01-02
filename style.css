@@ -130,7 +130,7 @@ footer {
   color: white;
   font-size: 1.5rem;
   padding: 0.5rem 0;
-  transition: 200ms;
+  transition: 200ms ease-in-out;
 }
 
 .btn-reset:hover {
@@ -166,13 +166,46 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(223, 223, 223);
+  background-color: rgba(223, 223, 223);
+  z-index: 9;
   pointer-events: none;
 }
 
 #overlay.active {
   opacity: 1;
   pointer-events: all;
+}
+
+.modal-win {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-out;
+  background-color: black;
+  color: white;
+  padding: 10rem;
+  font-size: 2rem;
+  border-radius: 10px;
+  z-index: 11;
+}
+
+.modal-win.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.form-win {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.win-button {
+  width: 100%;
+  font-size: 1.25rem;
+  padding: 0.25rem;
 }
 
 .form-container form {
@@ -209,10 +242,10 @@ button {
 input[type='text'] {
   appearance: none;
   outline: none;
-  border: 2px solid var(--grey);
-  border-radius: 5px;
   text-align: center;
-  height: 2rem;
+  outline: none;
+  border: none;
+  border-radius: 8px;
 }
 
 button {
@@ -221,19 +254,53 @@ button {
   font-size: 1rem;
 }
 
+.btn-player-1,
+.btn-bot-1,
+.name-player-1 {
+  background-color: #1f51ff;
+  color: white;
+}
+
+.btn-player-2,
+.btn-bot-2,
+.name-player-2 {
+  background-color: #d22b2b;
+  color: white;
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .btn-start-game {
   margin-top: 1.5rem;
   width: 100%;
+  background-color: black;
+  color: white;
+}
+
+.btn-player-1,
+.btn-player-2,
+.btn-bot-1,
+.btn-bot-2,
+.name-player-1,
+.name-player-2,
+.btn-start-game {
+  font-size: 1.125rem;
+  padding: 0.5rem 0;
+  transition: 100ms ease-in-out;
 }
 
 .btn-player-1:hover,
 .btn-player-2:hover,
 .btn-bot-1:hover,
 .btn-bot-2:hover,
+.name-player-1:hover,
+.name-player-2:hover,
 .btn-start-game:hover {
-  background-color: rgb(201, 201, 201);
-  color: black;
-  transition: 200ms;
+  -ms-transform: scale(1.025);
+  -webkit-transform: scale(1.025);
+  transform: scale(1.025);
 }
 
 img {
@@ -264,4 +331,23 @@ footer .player-scores {
   font-size: 1.75rem;
   background-color: rgb(35, 35, 35);
   color: white;
+  transition: 200ms ease-in-out;
+}
+
+.refresh:hover {
+  background-color: black;
+}
+
+.git-watermark {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 12;
+  top: 0.25rem;
+  right: 0.25rem;
+}
+
+.git-logo {
+  height: 24px;
+  padding-right: 3px;
 }

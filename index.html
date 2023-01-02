@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Tic Tac Toe</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,9 +36,11 @@
             <input
               type="text"
               id="name-player-1"
+              class="name-player-1"
               name="player-1"
+              maxlength="5"
               value=""
-              placeholder="player name"
+              placeholder="Nickname"
             />
           </div>
           <div class="form-section">
@@ -56,9 +59,11 @@
             <input
               type="text"
               id="name-player-2"
+              class="name-player-2"
               name="player-2"
+              maxlength="5"
               value=""
-              placeholder="player name"
+              placeholder="Nickname"
             />
           </div>
         </form>
@@ -72,11 +77,15 @@
         </button>
       </div>
     </div>
-    <div id="modal-win" class="modal">
+    <div id="modal-win" class="modal-win">
       <div class="form-container">
-        <form id="form" class="form" action="">
+        <form id="form" class="form-win" action="">
           <p class="winning-message" id="winning-message"></p>
-          <button id="modal-submit-btn" class="submit-button" type="submit">
+          <button
+            id="modal-submit-btn"
+            class="submit-button win-button"
+            type="submit"
+          >
             New game
           </button>
         </form>
@@ -103,6 +112,14 @@
         <p class="on-turn" id="on-turn"></p>
         <button class="btn-reset" id="btn-reset">Battle again!</button>
       </footer>
+    </div>
+    <div class="git-watermark">
+      <img
+        src="images/git.png"
+        alt="git watermark - lovrozagar"
+        class="git-logo"
+      />
+      <p>lovrozagar</p>
     </div>
   </body>
 </html>

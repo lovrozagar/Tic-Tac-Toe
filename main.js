@@ -20,7 +20,7 @@ const ticTacToe = (() => {
     overlay.classList.remove('active');
   }
 
-  let board = ['', '', '', '', '', '', '', '', ''];
+  const board = ['', '', '', '', '', '', '', '', ''];
   const wins = [
     [0, 3, 6],
     [1, 4, 7],
@@ -378,6 +378,7 @@ const ticTacToe = (() => {
       }
       const gameFields = document.querySelectorAll('.play-field');
       updateBoardFields(gameFields);
+      whoIsOnTurn = 'player1';
       turn();
     });
   }
@@ -440,15 +441,23 @@ const ticTacToe = (() => {
 
     if (playerArray[x].player === 'CPU' && playerArray[o].player === 'CPU') {
       while (!(checkForWin() || checkForTie())) {
-        if (whoIsOnTurn === 'player2') {
-          bestMove();
-        } else {
-          bestMoves();
+        if (whoIsOnTurn === 'player1') {
+          cpuPlaysXinMiddleIfEmpty();
+          updateBoardFields(gameFields);
+          if (checkForTie()) {
+            removeListenersIfEnd(gameFields);
+          }
         }
-        updateBoardFields(gameFields);
-        removeListenersIfEnd(gameFields);
+        if (whoIsOnTurn === 'player2') {
+          cpuPlaysOinMiddleIfEmpty();
+          updateBoardFields(gameFields);
+          if (checkForTie()) {
+            removeListenersIfEnd(gameFields);
+          }
+        }
       }
     }
+
     resetGame();
   }
 
